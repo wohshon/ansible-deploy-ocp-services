@@ -1,0 +1,17 @@
+---
+- name: Login to OCP and Get  Project
+  command: "{{ item }}"
+  with_items:
+    - "{{ OC_HOME}}/oc login -u openshift-dev -p devel"
+    - "{{OC_HOME}}/oc project {{ GIT_SOURCE_PROJECT }}"
+
+- name: Create App
+  shell: "{{ OC_HOME }}/oc new-app https://github.com/wohshon/rhforum2016#apacsko  --image-stream=fis-java-openshift  --context-dir=/FuseTravelAgency --name='fusetravelagency' -l 'app=fusetravelagency'"
+
+- name: patch service
+  shell: "{{ OC_HOME }}/oc get svc fusetravelagency -o json | /bin/sed -e 's/\"targetPort\": 8778/\"targetPort\": 8182/g' | {{OC_HOME}}/oc replace svc fuseagency -f -"
+
+- name: expose service
+  shell: "{{ OC_HOME }}/oc expose svc fusetravelagency"
+
+

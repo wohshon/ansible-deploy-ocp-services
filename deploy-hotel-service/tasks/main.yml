@@ -1,0 +1,14 @@
+---
+- name: Login to OCP and Get  Project
+  command: "{{ item }}"
+  with_items:
+    - "{{ OC_HOME}}/oc login -u openshift-dev -p devel"
+    - "{{OC_HOME}}/oc project {{ GIT_SOURCE_PROJECT }}"
+
+- name: Create App
+  shell: "{{ OC_HOME }}/oc new-app https://github.com/wohshon/rhforum2016#apacsko --image-stream=php --context-dir=/HotelWS --name=hotels -l app=hotels"
+
+- name: expose service
+  shell: "{{ OC_HOME }}/oc expose svc hotels"
+
+
