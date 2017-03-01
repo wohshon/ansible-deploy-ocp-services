@@ -4,3 +4,4 @@
     - vars/vars.yml
   roles:
     - deploy-rules
+    - deploy-car-service

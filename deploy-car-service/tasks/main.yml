@@ -1,0 +1,17 @@
+---
+- name: Login to OCP and Get  Project
+  command: "{{ item }}"
+  with_items:
+    - "{{ OC_HOME}}/oc login -u openshift-dev -p devel"
+    - "{{OC_HOME}}/oc project {{ GIT_SOURCE_PROJECT }}"
+
+
+- name: Create App
+  shell: "{{ OC_HOME }}/oc new-app --code=https://github.com/wohshon/rhforum2016 --image-stream=dotnet:1.0 --context-dir=/CarWS --name='cars' -l 'app=cars'"
+
+- name: patch service
+  shell: "{{ OC_HOME }}/oc get svc cars -o json | /bin/sed -e 's/\"targetPort\": 8080/\"targetPort\": 5000/g' | {{OC_HOME}}/oc replace svc cars -f -"
+
+- name: expose service
+  shell: "{{ OC_HOME }}/oc expose svc cars"
+
