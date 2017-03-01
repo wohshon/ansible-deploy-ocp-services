@@ -6,6 +6,6 @@
     - "{{OC_HOME}}/oc project {{ GIT_SOURCE_PROJECT }}"
 
 - name: Create App
-  shell: "{{ OC_HOME }}/oc new-app --template=eap70-basic-s2i --name=flights -l app=flights -p CONTEXT_DIR=/FlightWS -p APPLICATION_NAME=flights -p SOURCE_REPOSITORY_URL=https://github.com/wohshon/rhforum2016  -p SOURCE_REPOSITORY_REF=master" 
+  shell: "{{ OC_HOME }}/oc new-app --template=eap70-basic-s2i --name={{FLIGHTS_APP_NAME}} -l app={{FLIGHTS_APP_NAME}} -p CONTEXT_DIR={{FLIGHTS_GIT_REPO_CONTEXT}} -p APPLICATION_NAME={{FLIGHTS_APP_NAME}} -p SOURCE_REPOSITORY_URL={{FLIGHTS_GIT_REPO}}  -p SOURCE_REPOSITORY_REF={{FLIGHTS_GIT_REPO_BRANCH}}" 
 
 

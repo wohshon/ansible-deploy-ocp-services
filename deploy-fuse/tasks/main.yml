@@ -6,12 +6,12 @@
     - "{{OC_HOME}}/oc project {{ GIT_SOURCE_PROJECT }}"
 
 - name: Create App
-  shell: "{{ OC_HOME }}/oc new-app https://github.com/wohshon/rhforum2016#apacsko  --image-stream=fis-java-openshift  --context-dir=/FuseTravelAgency --name='fusetravelagency' -l 'app=fusetravelagency'"
+  shell: "{{ OC_HOME }}/oc new-app {{FUSE_GIT_REPO}}  --image-stream=fis-java-openshift  --context-dir={{FUSE_GIT_REPO_CONTEXT}} --name={{FUSE_APP_NAME}} -l app={{FUSE_APP_NAME}}"
 
 - name: patch service
-  shell: "{{ OC_HOME }}/oc get svc fusetravelagency -o json | /bin/sed -e 's/\"targetPort\": 8778/\"targetPort\": 8182/g' | {{OC_HOME}}/oc replace svc fuseagency -f -"
+  shell: "{{ OC_HOME }}/oc get svc {{FUSE_APP_NAME}} -o json | /bin/sed -e 's/\"targetPort\": 8778/\"targetPort\": 8182/g' | {{OC_HOME}}/oc replace svc {{FUSE_APP_NAME}} -f -"
 
 - name: expose service
-  shell: "{{ OC_HOME }}/oc expose svc fusetravelagency"
+  shell: "{{ OC_HOME }}/oc expose svc {{FUSE_APP_NAME}}"
 
 

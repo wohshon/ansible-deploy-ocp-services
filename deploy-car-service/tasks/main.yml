@@ -7,11 +7,11 @@
 
 
 - name: Create App
-  shell: "{{ OC_HOME }}/oc new-app --code=https://github.com/wohshon/rhforum2016 --image-stream=dotnet:1.0 --context-dir=/CarWS --name='cars' -l 'app=cars'"
+  shell: "{{ OC_HOME }}/oc new-app --code={{ CARS_GIT_REPO }} --image-stream=dotnet:1.0 --context-dir={{CARS_GIT_REPO_CONTEXT }} --name={{CARS_APP_NAME}} -l app={{CARS_APP_NAME}}"
 
 - name: patch service
-  shell: "{{ OC_HOME }}/oc get svc cars -o json | /bin/sed -e 's/\"targetPort\": 8080/\"targetPort\": 5000/g' | {{OC_HOME}}/oc replace svc cars -f -"
+  shell: "{{ OC_HOME }}/oc get svc {{CARS_APP_NAME}} -o json | /bin/sed -e 's/\"targetPort\": 8080/\"targetPort\": 5000/g' | {{OC_HOME}}/oc replace svc {{CARS_APP_NAME}} -f -"
 
 - name: expose service
-  shell: "{{ OC_HOME }}/oc expose svc cars"
+  shell: "{{ OC_HOME }}/oc expose svc {{CARS_APP_NAME}}"
 
